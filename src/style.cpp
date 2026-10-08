@@ -588,6 +588,11 @@ namespace litehtml
             //  ==================================  OTHER  ==================================
 
         case _cursor_:
+        case _transition_:
+        case _transition_property_:
+        case _transition_duration_:
+        case _transition_timing_function_:
+        case _transition_delay_:
             str = get_repr(value, 0, -1, true);
             add_parsed_property(name, property_value(str, important));
             break;

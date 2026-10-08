@@ -369,6 +369,43 @@ namespace litehtml
         return false;
     }
 
+    bool litehtml::html_tag::get_transition(std::string& out) const
+    {
+        const property_value& val = m_style.get_property(_transition_);
+        if(val.is<std::string>() && !val.get<std::string>().empty())
+        {
+            out = val.get<std::string>();
+            return true;
+        }
+        const property_value& dur_val = m_style.get_property(_transition_duration_);
+        if(dur_val.is<std::string>() && !dur_val.get<std::string>().empty())
+        {
+            const property_value& prop_val = m_style.get_property(_transition_property_);
+            std::string p = (prop_val.is<std::string>() && !prop_val.get<std::string>().empty())
+                ? prop_val.get<std::string>() : "all";
+            out = p + " " + dur_val.get<std::string>();
+            const property_value& tf_val = m_style.get_property(_transition_timing_function_);
+            if(tf_val.is<std::string>() && !tf_val.get<std::string>().empty())
+            {
+                out += " " + tf_val.get<std::string>();
+            }
+            const property_value& del_val = m_style.get_property(_transition_delay_);
+            if(del_val.is<std::string>() && !del_val.get<std::string>().empty())
+            {
+                out += " " + del_val.get<std::string>();
+            }
+            return true;
+        }
+        css_token_vector tokens;
+        static const string_id sid_transition = _id("--transition");
+        if(get_custom_property(sid_transition, tokens) && !tokens.empty())
+        {
+            out = get_repr(tokens, 0, -1, true);
+            return true;
+        }
+        return false;
+    }
+
     void litehtml::html_tag::compute_styles(bool recursive)
     {
         const char*   style = get_attr("style");

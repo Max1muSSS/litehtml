@@ -93,6 +93,7 @@ namespace litehtml
         _caption_side_, _order_,
 
         _counter_reset_, _counter_increment_,
+        _transition_, _transition_property_, _transition_duration_, _transition_timing_function_, _transition_delay_,
 
         // some CSS dimensions
         _deg_, _grad_, _rad_, _turn_,

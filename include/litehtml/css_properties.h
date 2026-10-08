@@ -195,6 +195,9 @@ namespace litehtml
 
         const background& get_bg() const;
         void              set_bg(const background& mBg);
+        web_color         get_bg_color() const;
+        void              set_bg_color(web_color c);
+        void              set_border_color(web_color c);
 
         pixel_t get_font_size() const;
         void    set_font_size(pixel_t mFontSize);
@@ -538,6 +541,21 @@ namespace litehtml
     inline void css_properties::set_bg(const background& mBg)
     {
         m_bg = mBg;
+    }
+    inline web_color css_properties::get_bg_color() const
+    {
+        return m_bg.m_color;
+    }
+    inline void css_properties::set_bg_color(web_color c)
+    {
+        m_bg.m_color = c;
+    }
+    inline void css_properties::set_border_color(web_color c)
+    {
+        m_css_borders.left.color = c;
+        m_css_borders.top.color = c;
+        m_css_borders.right.color = c;
+        m_css_borders.bottom.color = c;
     }
 
     inline pixel_t css_properties::get_font_size() const

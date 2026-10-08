@@ -1,6 +1,7 @@
 #include "html.h"
 #include "element.h"
 #include "document.h"
+#include "document_container.h"
 #include "render_item.h"
 #include "render_flex.h"
 #include "render_inline.h"
@@ -205,6 +206,7 @@ namespace litehtml
 
         if(requires_styles_update())
         {
+            css_properties old_css = m_css;
             auto process_boxes = [&](const std::shared_ptr<element>& el) {
                 for(const auto& weak_ri : el->m_renders)
                 {
@@ -223,6 +225,11 @@ namespace litehtml
 
             refresh_styles();
             compute_styles();
+            auto doc = get_document();
+            if(doc && doc->container())
+            {
+                doc->container()->on_element_styles_changed(shared_from_this(), old_css);
+            }
             ret = true;
         }
         for(auto& el : m_children)

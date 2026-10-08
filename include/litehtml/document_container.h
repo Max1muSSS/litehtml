@@ -66,6 +66,8 @@ namespace litehtml
             return false;
         };
         virtual void on_mouse_event(const litehtml::element::ptr& el, litehtml::mouse_event event)        = 0;
+        virtual void on_element_styles_changed(const litehtml::element::ptr& /*el*/,
+                                               const litehtml::css_properties& /*old_css*/) {}
         virtual void set_cursor(const char* cursor)                                                       = 0;
         virtual void transform_text(std::string& text, litehtml::text_transform tt)                       = 0;
         virtual void import_css(std::string& text, const std::string& url, std::string& baseurl)          = 0;
