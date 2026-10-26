@@ -487,6 +487,18 @@ namespace litehtml
         return newTag;
     }
 
+    void document::clear_font_cache()
+    {
+        if(m_container)
+        {
+            for(auto& font : m_fonts)
+            {
+                m_container->delete_font(font.second.font);
+            }
+        }
+        m_fonts.clear();
+    }
+
     uint_ptr document::add_font(const font_description& descr, font_metrics* fm)
     {
         uint_ptr ret = 0;

@@ -144,6 +144,11 @@ namespace litehtml
                                          const std::string&              master_styles = litehtml::master_css,
                                          const std::string&              user_styles   = {});
 
+        // Basalt extension (M4): drops cached font handles so that fonts
+        // fetched asynchronously (via the container) are re-created on the
+        // next layout pass.
+        void clear_font_cache();
+
       private:
         uint_ptr add_font(const font_description& descr, font_metrics* fm);
 
