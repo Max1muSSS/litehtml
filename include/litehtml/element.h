@@ -145,6 +145,14 @@ namespace litehtml
 
         bool requires_styles_update();
         void add_render(const std::shared_ptr<render_item>& ri);
+        // Replaces (or with nullptr clears) the render items attached to this
+        // element. Used by embedders that rebuild an element's children in
+        // place without going through a full document relayout.
+        void set_render_item(const std::shared_ptr<render_item>& ri);
+        // Detaches this element's render items from their parent's child list
+        // and forgets them. DOM-only removeChild() otherwise leaves the old
+        // boxes in the render tree, where they keep painting.
+        void detach_render_items();
         bool find_styles_changes(const std::function<void(const position&)>& redraw_box);
 
         element::ptr add_pseudo_before(const style& style)

@@ -8,6 +8,8 @@
 #include "render_table.h"
 #include "el_before_after.h"
 
+#include <algorithm>
+
 namespace litehtml
 {
 
@@ -193,6 +195,35 @@ namespace litehtml
     void element::add_render(const std::shared_ptr<render_item>& ri)
     {
         m_renders.push_back(ri);
+    }
+
+    void element::set_render_item(const std::shared_ptr<render_item>& ri)
+    {
+        m_renders.clear();
+        if(ri)
+        {
+            m_renders.push_back(ri);
+        }
+    }
+
+    void element::detach_render_items()
+    {
+        for(const auto& weak_ri : m_renders)
+        {
+            auto ri = weak_ri.lock();
+            if(!ri)
+            {
+                continue;
+            }
+            auto parent_ri = ri->parent();
+            if(!parent_ri)
+            {
+                continue;
+            }
+            auto& children = parent_ri->children();
+            children.erase(std::remove(children.begin(), children.end(), ri), children.end());
+        }
+        m_renders.clear();
     }
 
     bool element::find_styles_changes(const std::function<void(const position&)>& redraw_box)
